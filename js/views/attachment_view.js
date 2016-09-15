@@ -51,6 +51,14 @@
           $el.attr('src', this.dataUrl);
           $el.attr('type', this.contentType);
           this.$el.append($el);
+
+          var $saveButton = $('<img>');
+          $saveButton.attr('class', 'save');
+          $saveButton.attr('src', '/images/save.svg');
+          $saveButton.attr('height', '32');
+          $saveButton.attr('width', '32');
+          $saveButton.appendTo(this.$el.parent());
+
           return this;
       }
   });
@@ -67,8 +75,10 @@
         var parts = this.model.contentType.split('/');
         this.contentType = parts[0];
         this.fileType = parts[1];
+
     },
     events: {
+        'click .save': 'saveFile',
         'click': 'onclick'
     },
     onclick: function(e) {
