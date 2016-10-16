@@ -61,18 +61,17 @@
 
     Whisper.FontSizeView = Whisper.View.extend({
         defaultSize: 14,
-        maxSize: 30,
-        minSize: 14,
         initialize: function() {
-            this.currentSize = this.defaultSize;
+            this.currentSize = storage.get('font-size') || this.defaultSize;
             this.render();
         },
         events: { 'keydown': 'zoomText' },
         zoomText: function(e) {
-            if (!e.ctrlKey)
+            if (!e.ctrlKey) {
                 return;
+            }
             var keyCode = e.which || e.keyCode;
-            var maxSize = 22; // if bigger text goes outside send-message textarea
+            var maxSize = 22; // if bigger, text goes outside send-message textarea
             var minSize = 14;
             if (keyCode === 189 || keyCode == 109) {
                 if (this.currentSize > minSize) {
@@ -83,6 +82,7 @@
                     this.currentSize++;
                 }
             }
+            storage.put('font-size', this.currentSize);
             this.render();
         },
         render: function() {
